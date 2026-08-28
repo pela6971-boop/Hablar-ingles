@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Practica Inglés</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      text-align: center;
+      background: #f4f7fb;
+      padding: 30px 15px;
+    }
+
+    h1 {
+      color: #222;
+    }
+
+    p {
+      font-size: 18px;
+    }
+
+    #texto {
+      background: white;
+      border-radius: 15px;
+      padding: 20px;
+      margin: 25px auto;
+      max-width: 500px;
+      min-height: 80px;
+      font-size: 20px;
+    }
+
+    button {
+      border: none;
+      border-radius: 50%;
+      width: 100px;
+      height: 100px;
+      font-size: 40px;
+      background: #2563eb;
+      color: white;
+    }
+
+    button:active {
+      transform: scale(0.95);
+    }
+
+    #estado {
+      margin-top: 20px;
+      font-weight: bold;
+    }
+  </style>
+</head>
+
+<body>
+
+  <h1>🇬🇧 Practica Inglés</h1>
+
+  <p>Habla en inglés y practica tu conversación.</p>
+
+  <div id="texto">
+    Pulsa el micrófono y empieza a hablar.
+  </div>
+
+  <button onclick="hablar()">🎤</button>
+
+  <div id="estado"></div>
+
+  <script>
+    const reconocimiento = new (
+      window.SpeechRecognition ||
+      window.webkitSpeechRecognition
+    )();
+
+    reconocimiento.lang = "en-US";
+    reconocimiento.continuous = false;
+
+    reconocimiento.onstart = function() {
+      document.getElementById("estado").textContent =
+        "🎤 Te estoy escuchando...";
+    };
+
+    reconocimiento.onresult = function(event) {
+      const texto = event.results[0][0].transcript;
+
+      document.getElementById("texto").textContent = texto;
+
+      document.getElementById("estado").textContent =
+        "¡Muy bien! Has dicho lo que aparece arriba.";
+    };
+
+    reconocimiento.onerror = function() {
+      document.getElementById("estado").textContent =
+        "No he podido escucharte. Inténtalo otra vez.";
+    };
+
+    function hablar() {
+      reconocimiento.start();
+    }
+  </script>
+
+</body>
+</html>
